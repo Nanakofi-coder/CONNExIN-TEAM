@@ -5,7 +5,7 @@ A repository of the CONNExIN Functional MRI Team (0S)
 ### TEAM DETAILS 
 **Team Lead:**
 - **Name:** Maxwell Adu
-- **Affiliation** Komfo Anokye Teaching Hospital, Kumasi-Ghana 
+- **Affiliation:** Komfo Anokye Teaching Hospital, Kumasi-Ghana 
 
 ### Team Members 
 1.
