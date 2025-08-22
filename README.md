@@ -1,9 +1,8 @@
 # CONNExIN TEAM
-A repository of the CONNExIN Functional MRI team (0S)
+A repository of the CONNExIN Functional MRI Team (0S)
 
 ## WEEK ONE ASSIGNMENT
 ### TEAM DETAILS 
-
 **Team Lead:**
 - **Name:** Maxwell Adu
 - **Affiliation** Komfo Anokye Teaching Hospital, Kumasi-Ghana 
