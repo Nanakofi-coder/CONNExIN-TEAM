@@ -8,14 +8,14 @@ A repository of the CONNExIN Functional MRI Team (0S)
 - **Affiliation** Komfo Anokye Teaching Hospital, Kumasi-Ghana 
 
 ### Team Members 
-- **Name:** Abdul Rashid Karim
+1.- **Name:** Abdul Rashid Karim
 - **Affiliation:** Spectra Health Interventional And Imaging Center, kumas-Ghana  
-- **Name:** Ireneaus Nyame 
-- **Affiliation:** University of Cape Coast 
-- **Name:** Djinkou Noukeu Frank Barthes
+2.- **Name:** Ireneaus Nyame 
+- **Affiliation:** University of Cape Coast, Cape Coast-Ghana
+3.- **Name:** Djinkou Noukeu Frank Barthes
 - **Affiliation:** Faculty of Medicine and Biomedical Sciences, University of Yaoude 1, Yaounde-Cameroon 
-- **Name:** Meram Mahmoud Elyan 
+4.- **Name:** Meram Mahmoud Elyan 
 - **Affiliation:** Systems and Biomedical Engineering, Cairo University-Egypt
-- **Name:** Debborah Chepkurui
+5.- **Name:** Debborah Chepkurui
 - **Affiliation:** Kenyatta University Teaching Referral and Research Hospital, Nairobi-Kenya 
 
