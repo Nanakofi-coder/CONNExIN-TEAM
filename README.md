@@ -26,8 +26,8 @@ A repository of the CONNExIN Functional MRI Team (0S)
 
 
 
-#**Scripts Bash**
-Script 1 — DICOM ➜ BIDS + validation (Neurodesk)
+# Scripts Bash
+# Script 1 — DICOM ➜ BIDS + validation (Neurodesk)
 #!/bin/bash
 set -euo pipefail
 
@@ -130,7 +130,7 @@ echo "[done] BIDS ready at ${BIDS_DIR}"
 tree -L 3 "${BIDS_DIR}" || ls -R "${BIDS_DIR}"
 
 
-Script 2 — MRIQC (participant then group)
+# Script 2 — MRIQC (participant then group)
 #!/bin/bash
 set -euo pipefail
 
@@ -161,7 +161,7 @@ cd "${MRIQC_OUT}"
 python3 -m http.server 8000 &
 
 
-Script 3 — fMRIPrep (Apptainer, consistent paths)
+# Script 3 — fMRIPrep (Apptainer, consistent paths)
 #!/bin/bash
 set -euo pipefail
 
@@ -213,7 +213,7 @@ cd "${OUT_DIR}"
 python3 -m http.server 8000 &
 
 
-
+# Scritp 4- Analysis 
 
 ## Analysis: longitudinal measurement of local spontaneous brain activity (ALFF, fALFF, ReHo) across sessions
 
