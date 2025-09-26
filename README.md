@@ -20,7 +20,12 @@ A repository of the CONNExIN Functional MRI Team (0S)
 4.
    - **Name:** Meram Mahmoud Elyan 
    - **Affiliation:** Systems and Biomedical Engineering, Cairo University-Egypt
-  
+5.
+   - **Name:** Debborah Chepkurui
+   - **Affiliation:** Kenyatta University Teaching Referral and Research Hospital, Nairobi-Kenya 
+
+
+
 Scripts Bash
 Script 1 — DICOM ➜ BIDS + validation (Neurodesk)
 #!/bin/bash
@@ -433,9 +438,4 @@ echo "[✓] ROI table written: ${CSV}"
 echo "Columns: subject, session, run, tr_sec, meanFD, metric, roi_id, roi_name, mean, voxels"
 echo "HO lookup: ${HO_MAP}"
 
-
-
-5.
-   - **Name:** Debborah Chepkurui
-   - **Affiliation:** Kenyatta University Teaching Referral and Research Hospital, Nairobi-Kenya 
 
