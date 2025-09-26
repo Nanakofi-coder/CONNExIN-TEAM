@@ -21,7 +21,7 @@ A repository of the CONNExIN Functional MRI Team (0S)
    - **Name:** Meram Mahmoud Elyan 
    - **Affiliation:** Systems and Biomedical Engineering, Cairo University-Egypt
   
-   - Scripts Bash
+Scripts Bash
 Script 1 — DICOM ➜ BIDS + validation (Neurodesk)
 #!/bin/bash
 set -euo pipefail
