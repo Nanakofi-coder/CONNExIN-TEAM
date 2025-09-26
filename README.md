@@ -26,28 +26,28 @@ A repository of the CONNExIN Functional MRI Team (0S)
 
 
 
-Scripts Bash
+#**Scripts Bash**
 Script 1 — DICOM ➜ BIDS + validation (Neurodesk)
 #!/bin/bash
 set -euo pipefail
 
-# ── 0) Project layout (single consistent root) ────────────────────────────────
+## ── 0) Project layout (single consistent root) ────────────────────────────────
 export PROJECT=/neurodesktop-storage/Functional_MRI_OS
 export BIDS_DIR=${PROJECT}/bids
 export SRC_DICOM=${PROJECT}/sourcedata/dicom
 export DERIV=${PROJECT}/derivatives
 mkdir -p "${BIDS_DIR}" "${SRC_DICOM}" "${DERIV}" "${PROJECT}/code"
 
-# Example: we’ll process sub-002 ses-01
+### Example: we’ll process sub-002 ses-01
 SUBS=("sub-002")
 SESS=("ses-01")
 
-# ── 1) dcm2niix ───────────────────────────────────────────────────────────────
+## ── 1) dcm2niix ───────────────────────────────────────────────────────────────
 echo "[info] Loading dcm2niix…"
 ml dcm2niix
 dcm2niix -h >/dev/null
 
-# Convert per subject/session into a temp dropbox, then move into BIDS layout.
+### Convert per subject/session into a temp dropbox, then move into BIDS layout.
 for s in "${SUBS[@]}"; do
   for se in "${SESS[@]}"; do
     in_dir="${SRC_DICOM}/${s}/${se}"
@@ -98,7 +98,7 @@ for s in "${SUBS[@]}"; do
   done
 done
 
-# ── 3) Minimal BIDS side files ────────────────────────────────────────────────
+## ── 3) Minimal BIDS side files ────────────────────────────────────────────────
 if [ ! -f "${BIDS_DIR}/dataset_description.json" ]; then
   cat > "${BIDS_DIR}/dataset_description.json" <<'JSON'
 {
@@ -110,18 +110,18 @@ if [ ! -f "${BIDS_DIR}/dataset_description.json" ]; then
 JSON
 fi
 
-# optional participants.tsv (edit as needed)
+### optional participants.tsv (edit as needed)
 if [ ! -f "${BIDS_DIR}/participants.tsv" ]; then
   printf "participant_id\tage\tsex\n" > "${BIDS_DIR}/participants.tsv"
   for s in "${SUBS[@]}"; do printf "%s\tNA\tNA\n" "${s}" >> "${BIDS_DIR}/participants.tsv"; done
 fi
 
-# ── 4) Validate BIDS ──────────────────────────────────────────────────────────
+## ── 4) Validate BIDS ──────────────────────────────────────────────────────────
 echo "[info] Validating with bids-validator module…"
 if command -v bids-validator >/dev/null 2>&1; then
   bids-validator "${BIDS_DIR}" --ignoreWarnings --verbose
 else
-  # Neurodesk has a bids-validator module; load it if not already in PATH
+  ### Neurodesk has a bids-validator module; load it if not already in PATH
   ml bids-validator
   bids-validator "${BIDS_DIR}" --ignoreWarnings --verbose
 fi
@@ -142,7 +142,7 @@ mkdir -p "${MRIQC_OUT}"
 ml mriqc
 mriqc --version
 
-# Edit labels as needed
+### Edit labels as needed
 PARTS=("sub-002")
 
 echo "[info] MRIQC participant level…"
@@ -165,7 +165,7 @@ Script 3 — fMRIPrep (Apptainer, consistent paths)
 #!/bin/bash
 set -euo pipefail
 
-# ── 0) Paths & resources ──────────────────────────────────────────────────────
+### ── 0) Paths & resources ──────────────────────────────────────────────────────
 export PROJECT=/neurodesktop-storage/Functional_MRI_OS
 export BIDS_DIR=${PROJECT}/bids
 export DERIV=${PROJECT}/derivatives
@@ -177,15 +177,15 @@ mkdir -p "${OUT_DIR}" "${WORK_DIR}" "${FS_SUBJECTS_DIR}"
 [ -d "${BIDS_DIR}" ] || { echo "[error] ${BIDS_DIR} not found."; exit 1; }
 [ -f "${FS_LICENSE}" ] || { echo "[error] FreeSurfer license missing at ${FS_LICENSE}"; exit 1; }
 
-# Optional: keep Apptainer caches on the big disk
+### Optional: keep Apptainer caches on the big disk
 export APPTAINER_CACHEDIR=${PROJECT}/.apptainer_cache
 export APPTAINER_TMPDIR=${PROJECT}/.apptainer_tmp
 mkdir -p "$APPTAINER_CACHEDIR" "$APPTAINER_TMPDIR"
 
-# ── 1) Choose subjects ────────────────────────────────────────────────────────
+### ── 1) Choose subjects ────────────────────────────────────────────────────────
 PARTS=("sub-002")  # match your BIDS labels exactly (e.g., sub-002)
 
-# ── 2) Run fMRIPrep (latest image from Docker Hub) ────────────────────────────
+### ── 2) Run fMRIPrep (latest image from Docker Hub) ────────────────────────────
 echo "[info] Starting fMRIPrep…"
 apptainer run --cleanenv \
   -B "${BIDS_DIR}":/data:ro \
@@ -215,7 +215,7 @@ python3 -m http.server 8000 &
 
 
 
- Analysis: longitudinal measurement of local spontaneous brain activity (ALFF, fALFF, ReHo) across sessions
+## Analysis: longitudinal measurement of local spontaneous brain activity (ALFF, fALFF, ReHo) across sessions
 
 #!/bin/bash
 set -euo pipefail
@@ -230,28 +230,28 @@ OUT_METRICS=${DERIV}/localfluct               # where we write ALFF/fALFF/ReHo
 OUT_ROI=${DERIV}/localfluct_roi               # ROI CSV lives here
 WORK=${PROJECT}/work                          # scratch
 
-# Subjects and sessions to process (space-separated)
+### Subjects and sessions to process (space-separated)
 SUBJECTS=("sub-002")                          # e.g., sub-002 sub-003 ...
 SESSIONS=("ses-01" "ses-02" "ses-03")         # e.g., ses-01 ses-02 ses-03
 
-# Atlas for ROI extraction (FSL Harvard-Oxford cortical maxprob, 2mm)
+### Atlas for ROI extraction (FSL Harvard-Oxford cortical maxprob, 2mm)
 ATLAS=${FSLDIR}/data/atlases/HarvardOxford/HarvardOxford-cort-maxprob-thr25-2mm.nii.gz
 ATLAS_NAME="Harvard-Oxford Cortical Structural Atlas"   # for atlasquery
 
-# Denoising/band-pass settings
+### Denoising/band-pass settings
 FD_CENSOR=0.5        # scrub if FD > 0.5 mm
 BP_LO=0.01           # band-pass low (Hz)
 BP_HI=0.08           # band-pass high (Hz)
 
-# ReHo neighborhood (27 = 3x3x3 minus center)
+### ReHo neighborhood (27 = 3x3x3 minus center)
 REHO_N=27
 
-# Resources (adjust to your Neurodesk VM)
+### Resources (adjust to your Neurodesk VM)
 NPROCS=8
 OMP_NTHREADS=4
 MEM_GB=12
 
-# Export threads for AFNI/OpenMP tools
+### Export threads for AFNI/OpenMP tools
 export OMP_NUM_THREADS=${OMP_NTHREADS}
 export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=${OMP_NTHREADS}
 export AFNI_NIFTI_TYPE_WARN=NO
@@ -277,7 +277,7 @@ NOTE: In the maxprob label image, IDs start at 1 and follow this order.
 ######################################################################
 HO_MAP=${OUT_ROI}/harvardoxford_cort_id2name.tsv
 if [ ! -s "${HO_MAP}" ]; then
-  # Create a TSV with: id<tab>roi_name
+  ### Create a TSV with: id<tab>roi_name
   atlasquery -a "${ATLAS_NAME}" -l \
     | nl -ba \
     | sed 's/^\s*//' \
@@ -333,7 +333,7 @@ X = df[cols].fillna(0.0).values if cols else np.zeros((len(df),1))
 np.savetxt(out, X, fmt='%.6f')
 PY
 
-      # 2) Censor vector (drop first 2 TRs; censor FD > threshold)
+      #2) Censor vector (drop first 2 TRs; censor FD > threshold)
       python - "${CONF}" "${WRK_DIR}/censor.1D" "${FD_CENSOR}" <<'PY'
 import sys, pandas as pd, numpy as np
 tsv, out, thr = sys.argv[1], sys.argv[2], float(sys.argv[3])
