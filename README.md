@@ -319,7 +319,7 @@ for SUB in "${SUBJECTS[@]}"; do
 
       echo "[info] ${SUB} ${SES} ${RUN} :: denoise + band-pass"
 
-      # 1) Confounds (12 motion + top 5 aCompCor)
+      #1) Confounds (12 motion + top 5 aCompCor)
       python - "${CONF}" "${WRK_DIR}/confounds.1D" <<'PY'
 import sys, pandas as pd, numpy as np
 tsv, out = sys.argv[1], sys.argv[2]
